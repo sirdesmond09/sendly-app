@@ -312,7 +312,7 @@ def receive_sms(request):
         
         print("AI Response:",ai_response)
         
-        message = ai_response.get("choices")[0].get("text")
+        message = ai_response.get("choices")[0].get("text").strip()
         
         print("Text:", message)
 
