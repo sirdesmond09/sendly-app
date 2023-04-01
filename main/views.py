@@ -289,14 +289,17 @@ def check_subscription(request):
 
 
 
-@api_view(["POST"])
+@api_view(["GET", "POST"])
 def receive_sms(request):
+    
     if request.method == 'POST':
-        # Parse the incoming SMS message
-        data = request.POST
-        # sms = Sms(TO=data['to'], FROM=data['msisdn'], TEXT=data['text'])
+        if request.content_type == 'application/json':
+            print(request.json())
+        else:
+            data = request.POST.dict()
+            print(data)
         
-        print(data)
+
         # Perform any necessary processing or logic
         # For example, you could check the incoming message for a specific keyword and return a different response based on that.
 
