@@ -232,7 +232,7 @@ class Common(Configuration):
     EMAIL_USE_TLS = False 
     DEFAULT_FROM_EMAIL = "Jones from Doting.ai <noreply@getmobile.tech>" # TODO: Change to imperium email
     
-    SMS_SENDER = "Chkmsg"
+    SMS_SENDER = "12012854507"
     
 
     # Celery settings
