@@ -17,6 +17,7 @@ from django.utils import timezone
 from dateutil.relativedelta import relativedelta
 from vonage import Client, Sms
 from accounts.helpers.vonage_api import client
+import json
 
 
 
@@ -294,7 +295,8 @@ def receive_sms(request):
     
     if request.method == 'POST':
         if request.content_type == 'application/json':
-            print(request.json())
+            data = json.loads(request.POST.get('data'))
+            print(data)
         else:
             data = request.POST.dict()
             print(data)
