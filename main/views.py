@@ -1,6 +1,6 @@
 from accounts.models import ActivityLog
 from .serializers import EventPreferenceSerializer, LovedOneProfileSerializer, SubscribeSerializer, SubscriptionSerializer
-from .models import EventPreference, LovedOneProfile, Subscription, get_current_subscription
+from .models import EventPreference, LovedOneProfile, Subscription, get_current_subscription, SMSResponse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes, action
@@ -17,7 +17,7 @@ from django.utils import timezone
 from dateutil.relativedelta import relativedelta
 from accounts.helpers.vonage_api import sms
 from accounts.helpers.gpt import get_ai_response
-
+import json
 
 class ProfileView(ListCreateAPIView):
     queryset = LovedOneProfile.objects.filter(is_deleted=False)
@@ -308,6 +308,11 @@ def receive_sms(request):
                         "text": message,
                     }
                 )
+        
+        SMSResponse.objects.create(
+            text_json = json.dumps(clean_data),
+            ai_response = message,
+        )
 
     return Response(status=status.HTTP_200_OK)
     
