@@ -29,29 +29,16 @@ class UserDeleteSerializer(serializers.Serializer):
 
 class CustomUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(style={"input_type": "password"}, write_only=True, required=False)
-    store_profile = serializers.ReadOnlyField()
-    bank_detail = serializers.ReadOnlyField()
-    favourite_detail = serializers.ReadOnlyField()
-    vendor_rating = serializers.SerializerMethodField()
+
     
     class Meta():
         model = User
-        fields = ['id',"first_name", "last_name", "email", "phone", "password", "is_active", "role", "bank_detail", "store_profile", "favourite_detail", "groups", "user_permissions",]
+        fields = ['id',"first_name", "last_name", "email", "phone", "password", "is_active", "role", "groups", "user_permissions",]
         extra_kwargs = {
             'password': {'write_only': True}
         }
         
-        
-    def get_vendor_rating(self, vendor):
-        
-        products = vendor.products.filter(is_deleted=False)
-        
-        if len(products) > 0:
-            ratings =  list(map(lambda product : product.rating, products))
 
-            return round(sum(ratings)/len(ratings), 2)
-
-        return 0
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField(required=False)
