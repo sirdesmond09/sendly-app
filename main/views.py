@@ -288,7 +288,7 @@ def check_subscription(request):
 
 
 
-@api_view("POST")
+@api_view(["POST"])
 def receive_sms(request):
    
     if request.method == 'POST':
