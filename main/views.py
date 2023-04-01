@@ -294,6 +294,9 @@ def receive_sms(request):
     if request.method == 'POST':
         data = request.POST
 
+        print(data)
+        
+        print(data.get("text"))
         # Remove the array from each value
         clean_data = {k: v[0] for k, v in data.items()}
         
@@ -309,20 +312,20 @@ def receive_sms(request):
         
         print(text)
 
-        res = sms.send_message(
-                    {
-                        "from": "Doting App",
-                        "to": clean_data.get("msisdn"),
-                        "text": text,
-                    }
-                )
+        # res = sms.send_message(
+        #             {
+        #                 "from": "Doting App",
+        #                 "to": clean_data.get("msisdn"),
+        #                 "text": text,
+        #             }
+        #         )
         
-        print(res)
+        # print(res)
         
-        SMSResponse.objects.create(
-            text_json = json.dumps(clean_data),
-            ai_response = message,
-        )
+        # SMSResponse.objects.create(
+        #     text_json = json.dumps(clean_data),
+        #     ai_response = message,
+        # )
 
     return HttpResponse(status=204)
     
