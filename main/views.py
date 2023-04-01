@@ -18,6 +18,7 @@ from dateutil.relativedelta import relativedelta
 from accounts.helpers.vonage_api import sms
 from accounts.helpers.gpt import get_ai_response
 import json
+from django.http import HttpResponse
 
 class ProfileView(ListCreateAPIView):
     queryset = LovedOneProfile.objects.filter(is_deleted=False)
@@ -287,8 +288,6 @@ def check_subscription(request):
 
 
 
-
-@api_view(["POST"])
 def receive_sms(request):
    
     if request.method == 'POST':
@@ -305,13 +304,15 @@ def receive_sms(request):
         
         message = get_ai_response(ai_prompt)
         
-        print(message)
+        text = message.get("choices")[0].get("text")
+        
+        print(text)
 
         res = sms.send_message(
                     {
                         "from": "Doting App",
                         "to": clean_data.get("msisdn"),
-                        "text": message,
+                        "text": text,
                     }
                 )
         
@@ -322,5 +323,5 @@ def receive_sms(request):
             ai_response = message,
         )
 
-    return Response(status=status.HTTP_200_OK)
+    return HttpResponse(status=204)
     
