@@ -296,18 +296,26 @@ def receive_sms(request):
 
         # Remove the array from each value
         clean_data = {k: v[0] for k, v in data.items()}
+        
+        print(clean_data)
 
         ai_prompt = clean_data.get("text")
         
+        print(ai_prompt)
+        
         message = get_ai_response(ai_prompt)
+        
+        print(message)
 
-        sms.send_message(
+        res = sms.send_message(
                     {
                         "from": "Doting App",
                         "to": clean_data.get("msisdn"),
                         "text": message,
                     }
                 )
+        
+        print(res)
         
         SMSResponse.objects.create(
             text_json = json.dumps(clean_data),
