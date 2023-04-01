@@ -19,6 +19,7 @@ from accounts.helpers.vonage_api import sms
 from accounts.helpers.gpt import get_ai_response
 import json
 from django.http import HttpResponse
+from config.settings import Common
 
 class ProfileView(ListCreateAPIView):
     queryset = LovedOneProfile.objects.filter(is_deleted=False)
@@ -318,7 +319,7 @@ def receive_sms(request):
 
         res = sms.send_message(
                     {
-                        "from": "Doting App",
+                        "from": Common.SMS_SENDER,
                         "to": data.get("msisdn"),
                         "text": message,
                     }
