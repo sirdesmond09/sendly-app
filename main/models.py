@@ -118,3 +118,11 @@ def get_current_subscription(user):
     """Use this to get the current subscription of the user"""
     
     return user.subscriptions.filter(is_deleted=False).order_by('-date_added').first()
+
+
+
+class SMSResponse(models.Model):
+    text_json = models.JSONField()
+    ai_response = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    

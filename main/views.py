@@ -15,10 +15,8 @@ from django.contrib.auth.signals import user_logged_in, user_logged_out
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, CreateAPIView, RetrieveAPIView
 from django.utils import timezone
 from dateutil.relativedelta import relativedelta
-from vonage import Client, Sms
-from accounts.helpers.vonage_api import client
-import json
-
+from accounts.helpers.vonage_api import sms
+from accounts.helpers.gpt import get_ai_response
 
 
 class ProfileView(ListCreateAPIView):
@@ -290,21 +288,26 @@ def check_subscription(request):
 
 
 
-@api_view(["GET", "POST"])
+@api_view(["POST"])
 def receive_sms(request):
-    
-    if request.method == 'GET':
-       print(request.GET)
-       
-    elif request.method == 'POST':
-           print(request.POST)
+   
+    if request.method == 'POST':
+        data = request.POST
+
+        # Remove the array from each value
+        clean_data = {k: v[0] for k, v in data.items()}
+
+        ai_prompt = clean_data.get("text")
         
+        message = get_ai_response(ai_prompt)
 
-        # Perform any necessary processing or logic
-        # For example, you could check the incoming message for a specific keyword and return a different response based on that.
-
-
-        # response = client.send_message(sms)
+        sms.send_message(
+                    {
+                        "from": "Doting App",
+                        "to": clean_data.get("msisdn"),
+                        "text": message,
+                    }
+                )
 
     return Response(status=status.HTTP_200_OK)
     
