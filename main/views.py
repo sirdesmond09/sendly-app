@@ -287,9 +287,8 @@ def check_subscription(request):
 
 
 
-from django.views.decorators.csrf import csrf_exempt
 
-@csrf_exempt
+@api_view("POST")
 def receive_sms(request):
    
     if request.method == 'POST':
@@ -315,8 +314,7 @@ def receive_sms(request):
                         "from": "Doting App",
                         "to": clean_data.get("msisdn"),
                         "text": text,
-                    },
-                headers={'Referer': 'https://doting-app.herokuapp.com'}
+                    }
                 )
         
         print(res)
