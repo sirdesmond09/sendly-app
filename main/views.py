@@ -308,28 +308,28 @@ def receive_sms(request):
         
         print("AI Prompt:", ai_prompt)
         
-        message = get_ai_response(ai_prompt)
+        ai_response = get_ai_response(ai_prompt)
         
-        print(message)
+        print("AI Response:",ai_response)
         
-        text = message.get("choices")[0].get("text")
+        message = ai_response.get("choices")[0].get("text")
         
-        print(text)
+        print("Text:", message)
 
-        # res = sms.send_message(
-        #             {
-        #                 "from": "Doting App",
-        #                 "to": clean_data.get("msisdn"),
-        #                 "text": text,
-        #             }
-        #         )
+        res = sms.send_message(
+                    {
+                        "from": "Doting App",
+                        "to": data.get("msisdn"),
+                        "text": message,
+                    }
+                )
         
-        # print(res)
+        print("SMS Response:",res)
         
-        # SMSResponse.objects.create(
-        #     text_json = json.dumps(clean_data),
-        #     ai_response = message,
-        # )
+        SMSResponse.objects.create(
+            text_json = json.dumps(json_data),
+            ai_response = message,
+        )
 
     return HttpResponse(status=204)
     
