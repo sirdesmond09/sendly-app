@@ -315,7 +315,7 @@ def receive_sms(request):
                         "from": "Doting App",
                         "to": clean_data.get("msisdn"),
                         "text": text,
-                    }
+                    },
                 headers={'Referer': 'https://doting-app.herokuapp.com'}
                 )
         
