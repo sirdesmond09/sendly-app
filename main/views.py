@@ -294,17 +294,14 @@ def receive_sms(request):
     if request.method == 'POST':
         # Parse the incoming SMS message
         data = request.POST
-        sms = Sms(TO=data['to'], FROM=data['msisdn'], TEXT=data['text'])
+        # sms = Sms(TO=data['to'], FROM=data['msisdn'], TEXT=data['text'])
         
-        print(data["text"])
-        print(data['msisdn'])
-        
-        print(data['to'])
+        print(data)
         # Perform any necessary processing or logic
         # For example, you could check the incoming message for a specific keyword and return a different response based on that.
 
 
-        response = client.send_message(sms)
+        # response = client.send_message(sms)
 
         return Response('SMS message received and processed.', status=status.HTTP_200_OK)
     
