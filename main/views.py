@@ -296,17 +296,21 @@ def receive_sms(request):
 
         print(data)
         
+        
         print(data.get("text"))
         # Remove the array from each value
-        clean_data = {k: v[0] for k, v in data.items()}
         
-        print(clean_data)
-
-        ai_prompt = clean_data.get("text")
+        print("...........")
+        json_data = json.dumps(data)
+        print(json_data)
+        print("...........")
+        ai_prompt = data.get("text")
         
-        print(ai_prompt)
+        print("AI Prompt:", ai_prompt)
         
         message = get_ai_response(ai_prompt)
+        
+        print(message)
         
         text = message.get("choices")[0].get("text")
         
