@@ -293,12 +293,11 @@ def check_subscription(request):
 @api_view(["GET", "POST"])
 def receive_sms(request):
     
-    if request.method == 'POST':
-        if request.content_type == 'application/json':
-            print(request.POST)
-        else:
-            data = request.POST.dict()
-            print(data)
+    if request.method == 'GET':
+       print(request.GET)
+       
+    elif request.method == 'POST':
+           print(request.POST)
         
 
         # Perform any necessary processing or logic
@@ -307,5 +306,5 @@ def receive_sms(request):
 
         # response = client.send_message(sms)
 
-        return Response('SMS message received and processed.', status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_200_OK)
     
