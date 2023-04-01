@@ -295,8 +295,7 @@ def receive_sms(request):
     
     if request.method == 'POST':
         if request.content_type == 'application/json':
-            data = json.loads(request.POST.get('data'))
-            print(data)
+            print(request.POST)
         else:
             data = request.POST.dict()
             print(data)
