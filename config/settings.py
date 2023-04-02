@@ -307,8 +307,9 @@ class Staging(Common):
     )
     
 
-    ALLOWED_HOSTS = ["*"]
-
+    ALLOWED_HOSTS = ["manager.tiwa.ai"]
+    
+    
 
 class Production(Staging):
     """
