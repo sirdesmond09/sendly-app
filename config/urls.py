@@ -8,9 +8,9 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Doting.ai",
+        title="Tiwa.ai",
         default_version="v1",
-        description="Doting.ai API documentation",
+        description="Tiwa.ai API documentation",
         terms_of_service="",
         contact=openapi.Contact(email="desmond@getmobile.tech"),
         license=openapi.License(name="MIT License"),
