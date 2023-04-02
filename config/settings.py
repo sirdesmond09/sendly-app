@@ -13,6 +13,7 @@ from django.utils.timezone import timedelta
 
 from configurations import Configuration, values
 from celery.schedules import crontab
+import logging
 
 
 
@@ -211,7 +212,7 @@ class Common(Configuration):
     
     LOGIN_URL = '/admin/login/'
     
-    SITE_NAME = "Imperium"
+    SITE_NAME = "Tiwa"
     DOMAIN = "#"
     
     CLOUDINARY_STORAGE = {
@@ -249,6 +250,25 @@ class Common(Configuration):
         'schedule': crontab(hour=10, minute=19,),
     },
 }
+    
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'file': {
+                'level': 'DEBUG',
+                'class': 'logging.FileHandler',
+                'filename': os.path.join(BASE_DIR, 'tiwa.log'),
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['file'],
+                'level': 'DEBUG',
+                'propagate': True,
+            },
+        },
+    }
 
 
 class Development(Common):

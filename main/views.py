@@ -21,6 +21,11 @@ import json
 from django.http import HttpResponse
 from config.settings import Common
 
+
+import logging
+
+logger = logging.getLogger(__name__)
+
 class ProfileView(ListCreateAPIView):
     queryset = LovedOneProfile.objects.filter(is_deleted=False)
     serializer_class = LovedOneProfileSerializer
@@ -311,11 +316,12 @@ def receive_sms(request):
         
         ai_response = get_ai_response(ai_prompt)
         
-        print("AI Response:",ai_response)
+
+        logger.log(f"AI Response: {ai_response}")
         
         message = ai_response.get("choices")[0].get("text").strip()
         
-        print("Text:", message)
+        logger.log(f"Text:{message}")
 
         res = sms.send_message(
                     {
@@ -325,7 +331,7 @@ def receive_sms(request):
                     }
                 )
         
-        print("SMS Response:",res)
+        logger.log(f"SMS Response:{res}")
         
         SMSResponse.objects.create(
             text_json = json.dumps(json_data),
