@@ -317,11 +317,9 @@ def receive_sms(request):
         ai_response = get_ai_response(ai_prompt)
         
 
-        logger.log(f"AI Response: {ai_response}")
         
         message = ai_response.get("choices")[0].get("text").strip()
         
-        logger.log(f"Text:{message}")
 
         res = sms.send_message(
                     {
@@ -331,7 +329,6 @@ def receive_sms(request):
                     }
                 )
         
-        logger.log(f"SMS Response:{res}")
         
         SMSResponse.objects.create(
             text_json = json.dumps(json_data),
