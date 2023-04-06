@@ -360,7 +360,7 @@ def receive_twilio_sms(request):
         json_data = json.dumps(data)
         print(json_data)
         print("...........")
-        ai_prompt = json_data.get("body")
+        ai_prompt = data.get("body")
         
         
         ai_response = get_ai_response(ai_prompt)
@@ -369,15 +369,15 @@ def receive_twilio_sms(request):
         
         message = ai_response.get("choices")[0].get("text").strip()
         
-        print("Send message from:", json_data.get("To"))
-        print("Send message To:",json_data.get("From"))
+        print("Send message from:", data.get("To"))
+        print("Send message To:",data.get("From"))
         print("message:", message)
         
 
         res = client.messages.create(
-                from_=json_data.get("To"),
+                from_=data.get("To"),
                 body=message,
-                to=json_data.get("From")
+                to=data.get("From")
                 )
         
         print("Message response\n",res)
