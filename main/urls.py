@@ -12,5 +12,6 @@ urlpatterns = [
     path('subscriptions/check/', views.check_subscription),
     path('subscriptions/new/', views.subscribe),
     path('receive-sms/', views.receive_sms),
+    path('receive-twilio-sms/', views.receive_twilio_sms),
     
 ]

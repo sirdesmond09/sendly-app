@@ -17,6 +17,7 @@ from django.utils import timezone
 from dateutil.relativedelta import relativedelta
 from accounts.helpers.vonage_api import sms
 from accounts.helpers.gpt import get_ai_response
+from accounts.helpers.twilio_api import client
 import json
 from django.http import HttpResponse
 from config.settings import Common
@@ -296,6 +297,8 @@ def check_subscription(request):
 
 @api_view(["POST"])
 def receive_sms(request):
+    
+    """Receive sms message from the vonage call back request"""
    
     if request.method == 'POST':
         data = request.POST
@@ -337,3 +340,47 @@ def receive_sms(request):
 
     return HttpResponse(status=204)
     
+    
+    
+@api_view(["POST"])
+def receive_twilio_sms(request):
+    
+    """Receive sms message from the twilio webhook request"""
+   
+    if request.method == 'POST':
+        data = request.POST
+
+        print(data)
+        
+        
+        # print(data.get("text"))
+        # Remove the array from each value
+        
+        print("...........")
+        json_data = json.dumps(data)
+        print(json_data)
+        print("...........")
+        ai_prompt = data.get("text")
+        
+        print("AI Prompt:", ai_prompt)
+        
+        # ai_response = get_ai_response(ai_prompt)
+        
+
+        
+        # message = ai_response.get("choices")[0].get("text").strip()
+        
+
+        # message = client.messages.create(
+        #         from_='+15419034455',
+        #         body='This is a testing service',
+        #         to='+447895606493'
+        #         )
+        
+        
+        # SMSResponse.objects.create(
+        #     text_json = json.dumps(json_data),
+        #     ai_response = message,
+        # )
+
+    return HttpResponse(status=204)
