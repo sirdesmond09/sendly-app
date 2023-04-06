@@ -327,7 +327,7 @@ class Staging(Common):
     )
     
 
-    ALLOWED_HOSTS = ["manager.tiwa.ai"]
+    ALLOWED_HOSTS = ["manager.tiwa.ai","doting-app.herokuapp.com"]
     
     
 
