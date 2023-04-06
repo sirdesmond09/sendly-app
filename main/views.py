@@ -343,7 +343,7 @@ def receive_sms(request):
     
     
     
-@api_view(["POST"])
+@api_view(["POST", "GET"])
 def receive_twilio_sms(request):
     
     """Receive sms message from the twilio webhook request"""
@@ -369,14 +369,18 @@ def receive_twilio_sms(request):
         
         message = ai_response.get("choices")[0].get("text").strip()
         
+        print("Send message from:", json_data.get("To"))
+        print("Send message To:",json_data.get("From"))
+        print("message:", message)
+        
 
         res = client.messages.create(
                 from_=json_data.get("To"),
-                body='This is a testing service',
+                body=message,
                 to=json_data.get("From")
                 )
         
-        print(res)
+        print("Message response\n",res)
         
         SMSResponse.objects.create(
             text_json = json.dumps(json_data),
@@ -384,4 +388,7 @@ def receive_twilio_sms(request):
             service = "twilio"
         )
 
-    return HttpResponse(status=204)
+        return HttpResponse(status=204)
+    
+    elif request.method == 'GET':
+        return HttpResponse(status=200)
