@@ -336,6 +336,7 @@ def receive_sms(request):
         SMSResponse.objects.create(
             text_json = json.dumps(json_data),
             ai_response = message,
+            service = "vonage"
         )
 
     return HttpResponse(status=204)
@@ -350,7 +351,6 @@ def receive_twilio_sms(request):
     if request.method == 'POST':
         data = request.POST
 
-        print(data)
         
         
         # print(data.get("text"))
@@ -360,27 +360,28 @@ def receive_twilio_sms(request):
         json_data = json.dumps(data)
         print(json_data)
         print("...........")
-        ai_prompt = data.get("text")
+        ai_prompt = json_data.get("body")
         
-        print("AI Prompt:", ai_prompt)
         
-        # ai_response = get_ai_response(ai_prompt)
-        
-
-        
-        # message = ai_response.get("choices")[0].get("text").strip()
+        ai_response = get_ai_response(ai_prompt)
         
 
-        # message = client.messages.create(
-        #         from_='+15419034455',
-        #         body='This is a testing service',
-        #         to='+447895606493'
-        #         )
         
+        message = ai_response.get("choices")[0].get("text").strip()
         
-        # SMSResponse.objects.create(
-        #     text_json = json.dumps(json_data),
-        #     ai_response = message,
-        # )
+
+        res = client.messages.create(
+                from_=json_data.get("To"),
+                body='This is a testing service',
+                to=json_data.get("From")
+                )
+        
+        print(res)
+        
+        SMSResponse.objects.create(
+            text_json = json.dumps(json_data),
+            ai_response = message,
+            service = "twilio"
+        )
 
     return HttpResponse(status=204)

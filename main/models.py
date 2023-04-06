@@ -124,5 +124,7 @@ def get_current_subscription(user):
 class SMSResponse(models.Model):
     text_json = models.JSONField()
     ai_response = models.TextField()
+    service = models.CharField(max_length=50, choices=(("twilio","twilio"),
+                                                       ("vonage", "vonage"),))
     timestamp = models.DateTimeField(auto_now_add=True)
     
