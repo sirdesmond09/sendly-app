@@ -360,7 +360,7 @@ def receive_twilio_sms(request):
         json_data = json.dumps(data)
         print(json_data)
         print("...........")
-        ai_prompt = data.get("body")
+        ai_prompt = data.get("Body")
         
         print(ai_prompt)
         
@@ -375,19 +375,19 @@ def receive_twilio_sms(request):
         print("message:", message)
         
 
-        # res = client.messages.create(
-        #         from_=data.get("To"),
-        #         body=message,
-        #         to=data.get("From")
-        #         )
+        res = client.messages.create(
+                from_=data.get("To"),
+                body=message,
+                to=data.get("From")
+                )
         
-        # print("Message response\n",res)
+        print("Message response\n",res)
         
-        # SMSResponse.objects.create(
-        #     text_json = json.dumps(json_data),
-        #     ai_response = message,
-        #     service = "twilio"
-        # )
+        SMSResponse.objects.create(
+            text_json = json.dumps(json_data),
+            ai_response = message,
+            service = "twilio"
+        )
 
         return HttpResponse(status=204)
     
