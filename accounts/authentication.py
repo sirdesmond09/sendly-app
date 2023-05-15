@@ -5,14 +5,17 @@ import phonenumbers
 class PhoneNumberBackend(BaseBackend):
     def authenticate(self, request, phone=None, password=None, **kwargs):
         UserModel = get_user_model()
-        try:
-            user = UserModel.objects.get(phone=phone.as_e164)
-        except UserModel.DoesNotExist:
-            return None
+        
+        if phone:
+            try:
+                user = UserModel.objects.get(phone=phone.as_e164)
+            except UserModel.DoesNotExist:
+                return None
 
-        # Verify the password (you may use other authentication mechanisms)
-        if user.check_password(password):
-            return user
+            # Verify the password (you may use other authentication mechanisms)
+            if user.check_password(password):
+                return user
+        return None
 
     def get_user(self, user_id):
         UserModel = get_user_model()
