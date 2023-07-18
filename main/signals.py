@@ -14,7 +14,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def create_message(sender, instance, created, **kwargs):
     
     if created:
-    
+        messages= []
         loved_one = instance.loved_one
         loved_one:LovedOneProfile
         
@@ -36,9 +36,9 @@ def create_message(sender, instance, created, **kwargs):
         
             data = response.get("choices")[0].get("text").strip()
 
-            Message.objects.create(event=instance, to = loved_one, text=data)
+            messages.append(Message(event=instance, to = loved_one, text=data))
 
-        
+        Message.objects.bulk_create(messages)
     
     
     
@@ -53,7 +53,7 @@ def create_more_message(sender, instance, created, **kwargs):
     
         loved_one = event.loved_one
         loved_one:LovedOneProfile
-        
+        messages=[]
         likes = ", ".join(loved_one.likes)
         
         
@@ -72,5 +72,6 @@ def create_more_message(sender, instance, created, **kwargs):
         
             data = response.get("choices")[0].get("text").strip()
 
-            Message.objects.create(event=event, to = loved_one, text=data)
- 
+            messages.append(Message(event=instance, to = loved_one, text=data))
+
+        Message.objects.bulk_create(messages)
